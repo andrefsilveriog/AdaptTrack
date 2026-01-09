@@ -1,25 +1,27 @@
 <!doctype html>
-<html lang="en">
+<html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Redirecting…</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body>
     <script type="text/javascript">
-      // SPA redirect for GitHub Pages (AdaptTrack)
-      // Based on the "spa-github-pages" approach.
+      // SPA redirect for GitHub Pages (based on rafgraph/spa-github-pages)
+      // This project is deployed at https://<user>.github.io/AdaptTrack/
+      // segmentCount = 1 means "keep the first path segment after the leading slash" (the repo name)
       (function () {
-        var segmentCount = 1; // /<repo> is one segment
+        var segmentCount = 1;
         var l = window.location;
-        var newUrl =
-          l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-          l.pathname.split('/').slice(0, 1 + segmentCount).join('/') + '/?/' +
-          l.pathname.split('/').slice(1 + segmentCount).join('/').replace(/&/g, '~and~') +
-          (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
-          l.hash;
+        var origin = l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '');
+        var base = l.pathname.split('/').slice(0, 1 + segmentCount).join('/');
+        var path = l.pathname.split('/').slice(1 + segmentCount).join('/');
 
-        l.replace(newUrl);
+        // Preserve querystring by encoding & as ~and~ (so we can split later)
+        var search = l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '';
+
+        l.replace(origin + base + '/?/' + path.replace(/&/g, '~and~') + search + l.hash);
       })();
     </script>
-  </head>
-  <body>Redirecting…</body>
+  </body>
 </html>
