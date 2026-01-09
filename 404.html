@@ -1,15 +1,24 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Redirecting…</title>
-    <script>
-      // Store the full URL then redirect to the app root.
-      // index.html will read and restore it.
-      sessionStorage.setItem('gh_redirect', window.location.href);
-      var base = '/Body-Recomp-Tracker/';
-      window.location.replace(base);
+    <script type="text/javascript">
+      // SPA redirect for GitHub Pages (AdaptTrack)
+      // Based on the "spa-github-pages" approach.
+      (function () {
+        var segmentCount = 1; // /<repo> is one segment
+        var l = window.location;
+        var newUrl =
+          l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+          l.pathname.split('/').slice(0, 1 + segmentCount).join('/') + '/?/' +
+          l.pathname.split('/').slice(1 + segmentCount).join('/').replace(/&/g, '~and~') +
+          (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+          l.hash;
+
+        l.replace(newUrl);
+      })();
     </script>
   </head>
   <body>Redirecting…</body>
