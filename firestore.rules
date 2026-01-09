@@ -1,0 +1,42 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isSelf(userId) {
+      return signedIn() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return signedIn() &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
+    }
+
+    match /users/{userId} {
+      // Users can read/write their own profile. Admins can read all users.
+      allow read: if isSelf(userId) || isAdmin();
+      allow create: if isSelf(userId);
+
+      // Users can update their own profile EXCEPT privileged fields.
+      // Admins can update any user's account-related fields (isAdmin/accountType).
+      allow update: if (
+        isSelf(userId)
+        && !request.resource.data.diff(resource.data).changedKeys().hasAny(['isAdmin','accountType'])
+      ) || (
+        isAdmin()
+        && request.resource.data.diff(resource.data).changedKeys().hasOnly(['isAdmin','accountType'])
+      );
+
+      // Admin-only delete (optional; keeps things safer by default)
+      allow delete: if isAdmin();
+
+      // Entries remain private to the owner.
+      match /entries/{entryId} {
+        allow read, write: if isSelf(userId);
+      }
+    }
+  }
+}
