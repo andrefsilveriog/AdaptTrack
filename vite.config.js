@@ -5,5 +5,5 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   // For GitHub Pages set this to your repo name, e.g. "/my-repo/"
-  base: '/AdaptTrack',
+  base: '/',
 })

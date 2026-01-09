@@ -10,7 +10,6 @@ import { todayIso } from '../utils/date.js'
 
 import TrendExplorerChart from '../components/Charts/TrendExplorerChart.jsx'
 import WeeklyAnalysisTable from '../components/WeeklyAnalysisTable.jsx'
-import DynamicStatusBanner from '../components/DynamicStatusBanner.jsx'
 
 function titleCycle(type) {
   if (type === 'cut' || type === 'cutting') return 'Cutting'
@@ -165,8 +164,6 @@ export default function Dashboard() {
       )}
 
       {error && <div className="notice error" style={{ marginTop: 14 }}>{error}</div>}
-
-      <DynamicStatusBanner derived={derived} weekly={weekly} profile={activeProfile} currentCycle={currentCycle} />
 
       <div className="panel">
         <div className="panel-header">
