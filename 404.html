@@ -2,26 +2,15 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Redirecting…</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-  </head>
-  <body>
-    <script type="text/javascript">
-      // SPA redirect for GitHub Pages (based on rafgraph/spa-github-pages)
-      // This project is deployed at https://<user>.github.io/AdaptTrack/
-      // segmentCount = 1 means "keep the first path segment after the leading slash" (the repo name)
-      (function () {
-        var segmentCount = 1;
-        var l = window.location;
-        var origin = l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '');
-        var base = l.pathname.split('/').slice(0, 1 + segmentCount).join('/');
-        var path = l.pathname.split('/').slice(1 + segmentCount).join('/');
-
-        // Preserve querystring by encoding & as ~and~ (so we can split later)
-        var search = l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '';
-
-        l.replace(origin + base + '/?/' + path.replace(/&/g, '~and~') + search + l.hash);
-      })();
+    <title>Redirecting…</title>
+    <script>
+      // Store the full URL then redirect to the app root.
+      // index.html will read and restore it.
+      sessionStorage.setItem('gh_redirect', window.location.href);
+      var base = '/Body-Recomp-Tracker/';
+      window.location.replace(base);
     </script>
-  </body>
+  </head>
+  <body>Redirecting…</body>
 </html>

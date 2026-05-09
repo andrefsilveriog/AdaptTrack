@@ -3,26 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AdaptTrack</title>
-
-    <!-- GitHub Pages SPA redirect fix (repo: /AdaptTrack/) -->
-    <script type="text/javascript">
-      (function (l) {
-        if (l.search && l.search[1] === '/') {
-          var decoded = l.search
-            .slice(1)
-            .split('&')
-            .map(function (s) { return s.replace(/~and~/g, '&'); })
-            .join('?');
-          // l.pathname is typically "/AdaptTrack/" on GH Pages, so slice(0,-1) removes trailing slash
-          window.history.replaceState(null, null, l.pathname.slice(0, -1) + decoded + l.hash);
+    <title>Body Recomposition Tracker</title>
+    <script>
+      // GitHub Pages SPA redirect (from /404.html)
+      (function () {
+        const redirect = sessionStorage.getItem('gh_redirect')
+        if (redirect) {
+          sessionStorage.removeItem('gh_redirect')
+          const url = new URL(redirect)
+          history.replaceState(null, '', url.pathname + url.search + url.hash)
         }
-      })(window.location);
+      })();
     </script>
-    <script type="module" crossorigin src="/AdaptTrack/assets/index-CtMmmGT6.js"></script>
-    <link rel="stylesheet" crossorigin href="/AdaptTrack/assets/index-BqYZSoB9.css">
+    <script type="module" crossorigin src="/assets/index-MNy51cd0.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-4YN7VlQ0.css">
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"></div>
   </body>
 </html>
