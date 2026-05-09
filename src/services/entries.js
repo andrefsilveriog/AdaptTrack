@@ -2,6 +2,22 @@ import { collection, deleteDoc, doc, onSnapshot, serverTimestamp, setDoc, update
 import { db } from '../firebase.js'
 import { parseDateIso, sortByDateIsoAsc } from '../utils/date.js'
 
+function normalizeTripleMeasurements(entry) {
+  const next = { ...entry }
+  for (const site of ['neck', 'waist', 'hip']) {
+    const legacy = next[`${site}3`]
+    if (!Array.isArray(legacy)) continue
+
+    for (let i = 0; i < 3; i += 1) {
+      const key = `${site}${i + 1}`
+      if (next[key] === null || next[key] === undefined || next[key] === '') {
+        next[key] = legacy[i] ?? null
+      }
+    }
+  }
+  return next
+}
+
 export function listenEntries(userId, onData, onError) {
   const colRef = collection(db, 'users', userId, 'entries')
   return onSnapshot(colRef, (snap) => {
@@ -11,7 +27,7 @@ export function listenEntries(userId, onData, onError) {
       entries.push({ id: d.id, ...data })
     })
     // Ensure dateIso exists, else derive from id
-    const normalized = entries.map((e) => ({
+    const normalized = entries.map((e) => normalizeTripleMeasurements({
       ...e,
       dateIso: e.dateIso || e.id,
     })).sort(sortByDateIsoAsc)

@@ -144,9 +144,15 @@ export default function EntryForm({ userId, exerciseNames, tripleEnabled }) {
         const h1n = numOrNull(h1)
         const h2n = numOrNull(h2)
         const h3n = numOrNull(h3)
-        if (m1n !== null || m2n !== null || m3n !== null) patch.neck3 = [m1n, m2n, m3n]
-        if (w1n !== null || w2n !== null || w3n !== null) patch.waist3 = [w1n, w2n, w3n]
-        if (h1n !== null || h2n !== null || h3n !== null) patch.hip3 = [h1n, h2n, h3n]
+        if (m1n !== null) patch.neck1 = m1n
+        if (m2n !== null) patch.neck2 = m2n
+        if (m3n !== null) patch.neck3 = m3n
+        if (w1n !== null) patch.waist1 = w1n
+        if (w2n !== null) patch.waist2 = w2n
+        if (w3n !== null) patch.waist3 = w3n
+        if (h1n !== null) patch.hip1 = h1n
+        if (h2n !== null) patch.hip2 = h2n
+        if (h3n !== null) patch.hip3 = h3n
       }
 
       // Exercises
